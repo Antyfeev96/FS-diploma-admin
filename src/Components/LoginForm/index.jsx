@@ -1,6 +1,38 @@
-import React from 'react';
+import React, {useEffect, useState} from 'react';
+import {useHttp} from "../../Hooks/http.hook";
 
 const MyComponent = () => {
+    const { loading, request, error } = useHttp()
+    const [form, setForm] = useState({
+        email: '', password: ''
+    });
+
+    useEffect(() => {
+        console.log(error)
+    }, [error])
+
+    const onChange = e => {
+        setForm({ ...form, [e.target.name]: e.target.value });
+    }
+
+    const registerHandler = async () => {
+        try {
+            const data = await request('/api/auth/register', 'POST', { ...form })
+            console.log('Data: ', data)
+        } catch (e) {
+            console.log(e)
+        }
+    }
+
+    const loginHandler = async () => {
+        try {
+            const data = await request('/api/auth/login', 'POST', { ...form })
+            console.log('Data: ', data)
+        } catch (e) {
+            console.log(e)
+        }
+    }
+
     return (
         <main>
             <section className="login">
@@ -9,17 +41,20 @@ const MyComponent = () => {
                 </header>
                 <div className="login__wrapper">
                     <form className="login__form" action="login_submit" method="get" acceptCharset="utf-8">
-                        <label className="login__label" htmlFor="mail">
+                        <label className="login__label" htmlFor="email">
                             E-mail
-                            <input className="login__input" type="mail" placeholder="example@domain.xyz" name="mail"
+                            <input onChange={onChange} className="login__input" type="mail" placeholder="example@domain.xyz" name="email"
                                    required/>
                         </label>
-                        <label className="login__label" htmlFor="pwd">
+                        <label className="login__label" htmlFor="password">
                             Пароль
-                            <input className="login__input" type="password" placeholder="" name="pwd" required/>
+                            <input onChange={onChange} className="login__input" type="password" placeholder="" name="password" required/>
                         </label>
                         <div className="text-center">
-                            <input value="Авторизоваться" type="submit" className="login__button"/>
+                            <input onClick={loginHandler} value="Авторизоваться" type="submit" className="login__button" disabled={loading}/>
+                        </div>
+                        <div className="text-center">
+                            <input onClick={loginHandler} value="Зарегистрироваться" type="submit" className="register__button" disabled={loading}/>
                         </div>
                     </form>
                 </div>
