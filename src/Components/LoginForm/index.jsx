@@ -54,7 +54,7 @@ const MyComponent = () => {
                             <input onClick={loginHandler} value="Авторизоваться" type="submit" className="login__button" disabled={loading}/>
                         </div>
                         <div className="text-center">
-                            <input onClick={loginHandler} value="Зарегистрироваться" type="submit" className="register__button" disabled={loading}/>
+                            <input onClick={registerHandler} value="Зарегистрироваться" type="submit" className="register__button" disabled={loading}/>
                         </div>
                     </form>
                 </div>
