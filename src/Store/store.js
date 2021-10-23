@@ -1,7 +1,11 @@
-import { configureStore } from '@reduxjs/toolkit';
+import { combineReducers, configureStore } from '@reduxjs/toolkit';
+import hallsReducer from './reducers/HallsSlice'
 
-// export const store = configureStore({
-//   reducer: {
-//     counter: counterReducer,
-//   },
-// });
+const rootReducer = combineReducers({
+    hallsReducer
+})
+
+export const setupStore = () => configureStore({
+    reducer: rootReducer
+})
+
