@@ -1,7 +1,20 @@
-import React from 'react';
+import React, { useRef } from 'react';
 import Section from "../Section";
+import { useSelector, useDispatch } from "react-redux";
+import { setActiveHall, resetActiveHall } from "../../../Store/reducers/HallsSlice";
 
-const MyComponent = () => {
+const ConfigHalls = () => {
+    const Ref = useRef()
+    const dispatch = useDispatch()
+    const hallsState = useSelector(state => state.hallsReducer)
+    const { halls } = hallsState
+
+    const handleActiveHall = (hall) => {
+        console.log(Ref.current.checked)
+        dispatch(resetActiveHall())
+        dispatch(setActiveHall(hall))
+    }
+
     return (
         <Section>
             <header className="conf-step__header conf-step__header_opened">
@@ -10,10 +23,10 @@ const MyComponent = () => {
             <div className="conf-step__wrapper">
                 <p className="conf-step__paragraph">Выберите зал для конфигурации:</p>
                 <ul className="conf-step__selectors-box">
-                    <li><input type="radio" className="conf-step__radio" name="chairs-hall" value="Зал 1"
-                               checked/><span className="conf-step__selector">Зал 1</span></li>
-                    <li><input type="radio" className="conf-step__radio" name="chairs-hall" value="Зал 2"/><span
-                        className="conf-step__selector">Зал 2</span></li>
+                    {halls
+                        .map(hall => <li key={hall.name}><input ref={Ref} onChange={() => handleActiveHall(hall)} type="radio" className="conf-step__radio" name="chairs-hall"
+                                                value={hall.name}
+                                                defaultChecked={hall.checked}/><span className="conf-step__selector">{hall.name}</span></li>)}
                 </ul>
                 <p className="conf-step__paragraph">Укажите количество рядов и максимальное количество кресел в
                     ряду:</p>
@@ -158,4 +171,4 @@ const MyComponent = () => {
     );
 };
 
-export default MyComponent;
+export default ConfigHalls;

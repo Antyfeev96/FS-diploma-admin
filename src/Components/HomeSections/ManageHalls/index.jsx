@@ -1,16 +1,12 @@
 import React, {useEffect} from 'react';
 import Section from "../Section";
-import { useDispatch, useSelector } from "react-redux";
-import { fetchHalls } from "../../../Store/reducers/ActionCreators";
+import { useSelector } from "react-redux";
+import { Link, useRouteMatch } from "react-router-dom";
 
 const MyComponent = () => {
+    const { path } = useRouteMatch();
     const hallsState = useSelector(state => state.hallsReducer)
-    const dispatch = useDispatch()
     const { loading, halls, error } = hallsState
-
-    useEffect(() => {
-        dispatch(fetchHalls())
-    }, [dispatch])
 
     return (
         <Section>
@@ -23,9 +19,9 @@ const MyComponent = () => {
                     {loading && <h1>Идет загрузка...</h1>}
                     {error && <h1>{error}</h1>}
                     {halls
-                        .map(hall => <li>{hall.name} <button className="conf-step__button conf-step__button-trash"/></li>)}
+                        .map(hall => <li key={hall.name}>{hall.name} <button className="conf-step__button conf-step__button-trash"/></li>)}
                 </ul>
-                <button className="conf-step__button conf-step__button-accent">Создать зал</button>
+                <Link to={`${path}/add_hall`}><button className="conf-step__button conf-step__button-accent">Создать зал</button></Link>
             </div>
         </Section>
     );
