@@ -1,14 +1,21 @@
 import React from 'react';
 import Section from "../Section";
-import { useSelector } from "react-redux";
+import {useDispatch, useSelector} from "react-redux";
 import { Link, useRouteMatch } from "react-router-dom";
 import { useOpenHeader } from "../../../Hooks/openHeader.hook";
+import { deleteHall } from "../../../Store/reducers/ActionCreators";
 
 const ManageHalls = () => {
     const { isActive, toggleActive } = useOpenHeader()
     const { path } = useRouteMatch();
     const hallsState = useSelector(state => state.hallsReducer)
+    const dispatch = useDispatch()
     const { loading, halls, error } = hallsState
+
+    const onDelete = (_id) => {
+        console.log({_id})
+        dispatch(deleteHall(_id))
+    }
 
     return (
         <Section>
@@ -21,7 +28,7 @@ const ManageHalls = () => {
                     {loading && <h1>Идет загрузка...</h1>}
                     {error && <h1>{error}</h1>}
                     {halls
-                        .map(hall => <li key={hall.name}>{hall.name} <button className="conf-step__button conf-step__button-trash"/></li>)}
+                        .map(hall => <li key={hall.name}>{hall.name} <button onClick={() => onDelete(hall._id)} className="conf-step__button conf-step__button-trash"/></li>)}
                 </ul>
                 <Link to={`${path}/add_hall`}><button className="conf-step__button conf-step__button-accent">Создать зал</button></Link>
             </div>

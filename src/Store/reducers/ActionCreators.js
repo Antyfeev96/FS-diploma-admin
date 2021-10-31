@@ -29,3 +29,17 @@ export const createHall = createAsyncThunk(
         }
     }
 )
+
+export const deleteHall = createAsyncThunk(
+    'halls/deleteHall',
+    async (_id, thunkAPI) => {
+        console.log(_id)
+        try {
+            const response = await axios.delete(`http://localhost:7070/halls/${_id}`)
+            console.log(response.data)
+            return JSON.parse(response.data.halls)
+        } catch (e) {
+            return thunkAPI.rejectWithValue(e.message)
+        }
+    }
+)
