@@ -1,16 +1,18 @@
-import React, {useEffect} from 'react';
+import React from 'react';
 import Section from "../Section";
 import { useSelector } from "react-redux";
 import { Link, useRouteMatch } from "react-router-dom";
+import { useOpenHeader } from "../../../Hooks/openHeader.hook";
 
-const MyComponent = () => {
+const ManageHalls = () => {
+    const { isActive, toggleActive } = useOpenHeader()
     const { path } = useRouteMatch();
     const hallsState = useSelector(state => state.hallsReducer)
     const { loading, halls, error } = hallsState
 
     return (
         <Section>
-            <header className="conf-step__header conf-step__header_opened">
+            <header onClick={toggleActive} className={`conf-step__header ${isActive ? 'conf-step__header_opened' : 'conf-step__header_closed'}`}>
                 <h2 className="conf-step__title">Управление залами</h2>
             </header>
             <div className="conf-step__wrapper">
@@ -27,4 +29,4 @@ const MyComponent = () => {
     );
 };
 
-export default MyComponent;
+export default ManageHalls;

@@ -1,10 +1,13 @@
 import React from 'react';
 import Section from '../Section'
+import { useOpenHeader } from "../../../Hooks/openHeader.hook";
 
-const MyComponent = () => {
+const Prices = () => {
+    const { isActive, toggleActive } = useOpenHeader()
+
     return (
         <Section>
-            <header className="conf-step__header conf-step__header_opened">
+            <header onClick={toggleActive} className={`conf-step__header ${isActive ? 'conf-step__header_opened' : 'conf-step__header_closed'}`}>
                 <h2 className="conf-step__title">Конфигурация цен</h2>
             </header>
             <div className="conf-step__wrapper">
@@ -13,7 +16,7 @@ const MyComponent = () => {
                     <li><input type="radio" className="conf-step__radio" name="prices-hall" value="Зал 1"/><span
                         className="conf-step__selector">Зал 1</span></li>
                     <li><input type="radio" className="conf-step__radio" name="prices-hall" value="Зал 2"
-                               checked/><span className="conf-step__selector">Зал 2</span></li>
+                               defaultChecked/><span className="conf-step__selector">Зал 2</span></li>
                 </ul>
 
                 <p className="conf-step__paragraph">Установите цены для типов кресел:</p>
@@ -27,7 +30,7 @@ const MyComponent = () => {
                     <label className="conf-step__label">Цена, рублей<input type="text"
                                                                            className="conf-step__input"
                                                                            placeholder="0"
-                                                                           value="350"/></label> за <span
+                                                                           defaultValue="350"/></label> за <span
                     className="conf-step__chair conf-step__chair_vip"/> VIP кресла
                 </div>
 
@@ -41,4 +44,4 @@ const MyComponent = () => {
     );
 };
 
-export default MyComponent;
+export default Prices;

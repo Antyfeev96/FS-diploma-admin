@@ -1,11 +1,14 @@
 import React from 'react';
 import Section from "../Section";
 import poster from "../../../Assets/poster.png";
+import { useOpenHeader } from "../../../Hooks/openHeader.hook";
 
-const MyComponent = () => {
+const Sessions = () => {
+    const { isActive, toggleActive } = useOpenHeader()
+
     return (
         <Section>
-            <header className="conf-step__header conf-step__header_opened">
+            <header onClick={toggleActive} className={`conf-step__header ${isActive ? 'conf-step__header_opened' : 'conf-step__header_closed'}`}>
                 <h2 className="conf-step__title">Сетка сеансов</h2>
             </header>
             <div className="conf-step__wrapper">
@@ -115,4 +118,4 @@ const MyComponent = () => {
     );
 };
 
-export default MyComponent;
+export default Sessions;

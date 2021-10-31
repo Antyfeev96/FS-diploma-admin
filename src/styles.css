@@ -23,6 +23,11 @@
     box-sizing: border-box;
 }
 
+body a {
+    text-decoration: none;
+    color: inherit;
+}
+
 html {
     font-family: "Roboto", sans-serif;
     font-size: 62.5%;

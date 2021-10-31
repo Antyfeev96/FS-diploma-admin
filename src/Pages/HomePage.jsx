@@ -16,15 +16,14 @@ const HomePage = () => {
     const {loading, halls, error} = hallsState
 
     useEffect(() => {
-        if (halls.length === 0) {
-            dispatch(fetchHalls())
-        }
+        dispatch(fetchHalls())
     }, [dispatch])
 
     return (
         <>
             {loading && <Loader/>}
-            {halls.length > 0 &&
+            {error && alert('Ошибка')}
+            {!loading && halls?.length > 0 &&
             <div>
                 <Header/>
                 <main className="conf-steps">
