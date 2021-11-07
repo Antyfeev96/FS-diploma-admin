@@ -1,25 +1,58 @@
-import React, {useEffect, useRef, useState} from 'react';
-import Section from "../Section";
+import React, {useEffect, useMemo, useRef, useState} from 'react';
 import {useSelector, useDispatch} from "react-redux";
-import {setActiveHall, resetActiveHall} from "../../../Store/reducers/HallsSlice";
+
+import Section from "../Section";
+import Popup from "../../Popup/Popup";
+
 import {useOpenHeader} from "../../../Hooks/openHeader.hook";
+import {useModal} from "../../../Hooks/useModal";
+import {useDisableScroll} from "../../../Hooks/useDisableScroll";
+import {useOnClickOutside} from "../../../Hooks/useOnClickOutside";
+
+import {setActiveHall, resetActiveHall} from "../../../Store/reducers/HallsSlice";
+import {setPlaceToChange, resetPlaceToChange} from "../../../Store/reducers/PlaceToChangeSlice";
+import {updateHall} from "../../../Store/reducers/ActionCreators";
 
 const ConfigHalls = () => {
-    const Ref = useRef()
-    const dispatch = useDispatch()
+    const ref = useRef()
+    const [modalOpen, setModalOpen, toggle] = useModal(false)
     const hallsState = useSelector(state => state.hallsReducer)
+    const { placeToChange } = useSelector(state => state.placeToChangeReducer)
+    const dispatch = useDispatch()
+    const { halls } = hallsState
     const {isActive, toggleActive} = useOpenHeader()
-    const {halls} = hallsState
 
-    const activeHall = halls.find(hall => hall.checked)
+    const activeHall = useMemo(() => halls.find(hall => hall.checked), [halls])
 
     const handleActiveHall = (hall) => {
         dispatch(resetActiveHall())
         dispatch(setActiveHall(hall))
     }
 
+    const onPopupOpen = (rowIndex, place, placeIndex) => {
+        toggle()
+        dispatch(setPlaceToChange( {row: rowIndex, place: placeIndex, status: place}))
+    }
+
+    const onPopupClose = () => {
+        dispatch(resetPlaceToChange())
+        toggle()
+    }
+
+    useEffect(() => {
+        console.log({activeHall})
+    }, [activeHall])
+
+    useEffect(() => {
+        console.log({placeToChange})
+    }, [placeToChange])
+
+    useDisableScroll(modalOpen)
+    useOnClickOutside(modalOpen, ref, onPopupClose)
+
     return (
         <Section>
+            {modalOpen && <Popup placeStatus={placeToChange.status} ref={ref} onClosePopup={onPopupClose}/>}
             <header onClick={toggleActive}
                     className={`conf-step__header ${isActive ? 'conf-step__header_opened' : 'conf-step__header_closed'}`}>
                 <h2 className="conf-step__title">Конфигурация залов</h2>
@@ -28,7 +61,7 @@ const ConfigHalls = () => {
                 <p className="conf-step__paragraph">Выберите зал для конфигурации:</p>
                 <ul className="conf-step__selectors-box">
                     {halls
-                        .map(hall => <li key={hall.name}><input ref={Ref} onChange={() => handleActiveHall(hall)}
+                        .map(hall => <li key={hall.name}><input onChange={() => handleActiveHall(hall)}
                                                                 type="radio" className="conf-step__radio"
                                                                 name="chairs-hall"
                                                                 value={hall.name}
@@ -57,8 +90,9 @@ const ConfigHalls = () => {
                 <div className="conf-step__hall">
                     <div className="conf-step__hall-wrapper">
                         {activeHall.rows
-                            .map(row => <div className="conf-step__row">{row.map(place => <span
-                                className={`conf-step__chair conf-step__chair_${place}`}/>)}</div>)}
+                            .map((row, rowIndex) => <div key={`row${rowIndex}`} className="conf-step__row">{row.map((place, placeIndex) =>
+                                <span key={`place${placeIndex}`}
+                                    onClick={() => onPopupOpen(rowIndex, place, placeIndex)} className={`conf-step__chair conf-step__chair_${place}`}/>)}</div>)}
                     </div>
                 </div>
 

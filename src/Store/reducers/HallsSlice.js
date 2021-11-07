@@ -1,11 +1,11 @@
 import {createSlice, current} from "@reduxjs/toolkit";
-import { fetchHalls, createHall, deleteHall } from "./ActionCreators";
+import { fetchHalls, createHall, deleteHall, updateHall } from "./ActionCreators";
 
 const initialState = {
     loading: false,
     error: null,
     halls: [],
-    activeHall: {}
+    activeHall: null
 }
 
 export const hallsSlice = createSlice(({
@@ -53,6 +53,18 @@ export const hallsSlice = createSlice(({
             state.loading = true;
         },
         [deleteHall.rejected.type]: (state, action) => {
+            state.loading = false;
+            state.error = action.payload;
+        },
+        [updateHall.fulfilled.type]: (state, action) => {
+            state.loading = false;
+            state.error = null
+            state.halls = action.payload;
+        },
+        [updateHall.pending.type]: (state) => {
+            state.loading = true;
+        },
+        [updateHall.rejected.type]: (state, action) => {
             state.loading = false;
             state.error = action.payload;
         },
