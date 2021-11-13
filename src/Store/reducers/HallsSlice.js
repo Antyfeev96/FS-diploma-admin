@@ -16,7 +16,9 @@ export const hallsSlice = createSlice(({
             state.halls.find(hall => hall.name === action.payload.name).checked = true
         },
         resetActiveHall(state) {
-            state.halls.find(hall => hall.checked).checked = false;
+            const checkedHall = state.halls.find(hall => hall.checked);
+            if (!checkedHall) return;
+            checkedHall.checked = false
         }
     },
     extraReducers: {

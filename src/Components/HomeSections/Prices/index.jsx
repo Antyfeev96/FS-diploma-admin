@@ -1,39 +1,49 @@
 import React from 'react';
+import {useSelector, useDispatch} from "react-redux";
 import Section from '../Section'
-import { useOpenHeader } from "../../../Hooks/openHeader.hook";
+import {useOpenHeader} from "../../../Hooks/openHeader.hook";
+import {setHallToConfigure, resetHallToConfigure, changePrice} from "../../../Store/reducers/HallToConfigureSlice";
 
 const Prices = () => {
-    const { isActive, toggleActive } = useOpenHeader()
+    const dispatch = useDispatch()
+    const {isActive, toggleActive} = useOpenHeader()
+
+    const {hall} = useSelector(state => state.hallToConfigureReducer)
+    const hallsState = useSelector(state => state.hallsReducer)
+
+    const handleHallToConfigure = (hall) => {
+        dispatch(setHallToConfigure(hall))
+    }
+
+    const handleChangePrice = (priceObg) => {
+        dispatch(changePrice(priceObg))
+    }
 
     return (
         <Section>
-            <header onClick={toggleActive} className={`conf-step__header ${isActive ? 'conf-step__header_opened' : 'conf-step__header_closed'}`}>
+            <header onClick={toggleActive}
+                    className={`conf-step__header ${isActive ? 'conf-step__header_opened' : 'conf-step__header_closed'}`}>
                 <h2 className="conf-step__title">Конфигурация цен</h2>
             </header>
             <div className="conf-step__wrapper">
                 <p className="conf-step__paragraph">Выберите зал для конфигурации:</p>
                 <ul className="conf-step__selectors-box">
-                    <li><input type="radio" className="conf-step__radio" name="prices-hall" value="Зал 1"/><span
-                        className="conf-step__selector">Зал 1</span></li>
-                    <li><input type="radio" className="conf-step__radio" name="prices-hall" value="Зал 2"
-                               defaultChecked/><span className="conf-step__selector">Зал 2</span></li>
+                    {hallsState.halls.map(hall => <li><input onClick={() => handleHallToConfigure(hall)} type="radio"
+                                                             className="conf-step__radio"
+                                                             name="prices-hall" value={hall.name}/><span
+                        className="conf-step__selector">{hall.name}</span></li>)}
                 </ul>
 
                 <p className="conf-step__paragraph">Установите цены для типов кресел:</p>
-                <div className="conf-step__legend">
+                {hall?.prices ? Object.entries(hall?.prices).map(([key, value]) => <div className="conf-step__legend">
                     <label className="conf-step__label">Цена, рублей<input type="text"
-                                                                           className="conf-step__input"
-                                                                           placeholder="0"/></label> за <span
-                    className="conf-step__chair conf-step__chair_standart"/> обычные кресла
-                </div>
-                <div className="conf-step__legend">
-                    <label className="conf-step__label">Цена, рублей<input type="text"
+                                                                           onChange={(e) => handleChangePrice({ key, value: e.target.value })}
                                                                            className="conf-step__input"
                                                                            placeholder="0"
-                                                                           defaultValue="350"/></label> за <span
-                    className="conf-step__chair conf-step__chair_vip"/> VIP кресла
-                </div>
-
+                                                                           defaultValue={value ?? 0}
+                    /></label> за <span
+                    className={`conf-step__chair conf-step__chair_${key}`}/> {key === 'standart' ? 'обычные' : 'VIP'} кресла
+                </div>) : 'список пуст'}
                 <fieldset className="conf-step__buttons text-center">
                     <button className="conf-step__button conf-step__button-regular">Отмена</button>
                     <input type="submit" value="Сохранить"

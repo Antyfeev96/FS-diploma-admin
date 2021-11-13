@@ -22,7 +22,7 @@ const HomePage = () => {
         <>
             {loading && <Loader/>}
             {error && alert('Ошибка')}
-            {!loading && halls?.length > 0 &&
+            {!loading &&
             <div>
                 <Header/>
                 <main className="conf-steps">

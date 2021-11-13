@@ -22,7 +22,7 @@ const ConfigHalls = () => {
     const { halls } = hallsState
     const {isActive, toggleActive} = useOpenHeader()
 
-    const activeHall = useMemo(() => halls.find(hall => hall.checked), [halls])
+    const activeHall = useMemo(() => halls.find(hall => hall?.checked), [halls])
 
     const handleActiveHall = (hall) => {
         dispatch(resetActiveHall())
@@ -72,10 +72,10 @@ const ConfigHalls = () => {
                     ряду:</p>
                 <div className="conf-step__legend">
                     <label className="conf-step__label">Рядов, шт<input type="text" className="conf-step__input"
-                                                                        placeholder={activeHall.rows.length}/></label>
+                                                                        placeholder={activeHall?.rows?.length}/></label>
                     <span className="multiplier">x</span>
                     <label className="conf-step__label">Мест, шт<input type="text" className="conf-step__input"
-                                                                       placeholder={activeHall.rows[0].length}/></label>
+                                                                       placeholder={activeHall?.rows[0].length}/></label>
                 </div>
                 <p className="conf-step__paragraph">Теперь вы можете указать типы кресел на схеме зала:</p>
                 <div className="conf-step__legend">
@@ -89,7 +89,7 @@ const ConfigHalls = () => {
 
                 <div className="conf-step__hall">
                     <div className="conf-step__hall-wrapper">
-                        {activeHall.rows
+                        {activeHall?.rows
                             .map((row, rowIndex) => <div key={`row${rowIndex}`} className="conf-step__row">{row.map((place, placeIndex) =>
                                 <span key={`place${placeIndex}`}
                                     onClick={() => onPopupOpen(rowIndex, place, placeIndex)} className={`conf-step__chair conf-step__chair_${place}`}/>)}</div>)}
