@@ -30,14 +30,30 @@ export const createHall = createAsyncThunk(
     }
 )
 
-export const updateHall = createAsyncThunk(
-    'halls/updateHall',
+export const updatePlaceStatus = createAsyncThunk(
+    'halls/updatePlaceStatus',
     async ({_id, row, place, status}, thunkAPI) => {
         try {
             const response = await axios.patch(`http://localhost:7070/halls/${_id}`, {
                 row,
                 place,
                 status
+            })
+            console.log(JSON.parse(response.data.halls))
+            return JSON.parse(response.data.halls)
+        } catch (e) {
+            console.log(e.message)
+            return thunkAPI.rejectWithValue(e.message)
+        }
+    }
+)
+
+export const updateHallRows = createAsyncThunk(
+    'halls/updateHallRows',
+    async ({_id, rows}, thunkAPI) => {
+        try {
+            const response = await axios.put(`http://localhost:7070/halls/${_id}`, {
+                rows,
             })
             console.log(JSON.parse(response.data.halls))
             return JSON.parse(response.data.halls)

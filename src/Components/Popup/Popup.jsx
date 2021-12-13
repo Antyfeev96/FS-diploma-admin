@@ -2,7 +2,7 @@ import React, {useMemo, useState} from 'react';
 import styled from 'styled-components';
 import {useDispatch, useSelector} from "react-redux";
 import close from '../../Assets/close.png'
-import {updateHall} from "../../Store/reducers/ActionCreators";
+import {updatePlaceStatus} from "../../Store/reducers/ActionCreators";
 
 const Wrapper = styled.div`
     position: fixed;
@@ -98,7 +98,7 @@ const Popup = React.forwardRef(({ placeStatus, modelOpen, onPopupClose }, ref) =
     const dispatch = useDispatch()
 
     const onPatch = (status) => {
-        dispatch(updateHall({ _id: activeHall._id, row: placeToChange.row, place: placeToChange.place, status }))
+        dispatch(updatePlaceStatus({ _id: activeHall._id, row: placeToChange.row, place: placeToChange.place, status }))
     }
 
     return (

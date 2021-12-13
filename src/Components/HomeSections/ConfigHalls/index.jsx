@@ -11,9 +11,11 @@ import {useOnClickOutside} from "../../../Hooks/useOnClickOutside";
 
 import {setActiveHall, resetActiveHall} from "../../../Store/reducers/HallsSlice";
 import {setPlaceToChange, resetPlaceToChange} from "../../../Store/reducers/PlaceToChangeSlice";
-import {updateHall} from "../../../Store/reducers/ActionCreators";
+import { updateHallRows } from "../../../Store/reducers/ActionCreators";
 
 const ConfigHalls = () => {
+    const [rows, setRows] = useState(0)
+    const [places, setPlaces] = useState(0)
     const ref = useRef()
     const [modalOpen, setModalOpen, toggle] = useModal(false)
     const hallsState = useSelector(state => state.hallsReducer)
@@ -50,6 +52,39 @@ const ConfigHalls = () => {
     useDisableScroll(modalOpen)
     useOnClickOutside(modalOpen, ref, onPopupClose)
 
+    const validateChangeInput = (e) => {
+        console.log({
+            isNan: isNaN(+e.target.value),
+            und: !e.target.value,
+            empty: e.target.value === ''
+        })
+        return isNaN(+e.target.value) && e.target.value !== ''
+    }
+
+    const handleInputResult = (e) => {
+        const value = +e.target.value.trim()
+        if (value < 1) return ''
+        if (value > 8) return 8
+        return value
+    }
+
+    const handleSetRows = (e) => {
+        if (validateChangeInput(e)) return;
+        console.log(+e.target.value.trim())
+        setRows(handleInputResult(e))
+    }
+
+    const handleSetPlaces = (e) => {
+        if (validateChangeInput(e)) return;
+        console.log(+e.target.value.trim())
+        setPlaces(handleInputResult(e))
+    }
+
+    const onSaveChanges = () => {
+        const rowsArray = Array(rows).fill(null).map(() => Array(places).fill('standart'))
+        dispatch(updateHallRows({ _id: activeHall._id, rows:  rowsArray }))
+    }
+
     return (
         <Section>
             {modalOpen && <Popup placeStatus={placeToChange.status} ref={ref} onClosePopup={onPopupClose}/>}
@@ -71,11 +106,11 @@ const ConfigHalls = () => {
                 <p className="conf-step__paragraph">Укажите количество рядов и максимальное количество кресел в
                     ряду:</p>
                 <div className="conf-step__legend">
-                    <label className="conf-step__label">Рядов, шт<input type="text" className="conf-step__input"
-                                                                        placeholder={activeHall?.rows?.length}/></label>
+                    <label className="conf-step__label">Рядов, шт<input onChange={handleSetRows} type="text" className="conf-step__input"
+                                                                        placeholder={activeHall?.rows?.length} value={rows}/></label>
                     <span className="multiplier">x</span>
-                    <label className="conf-step__label">Мест, шт<input type="text" className="conf-step__input"
-                                                                       placeholder={activeHall?.rows[0].length}/></label>
+                    <label className="conf-step__label">Мест, шт<input onChange={handleSetPlaces} type="text" className="conf-step__input"
+                                                                       placeholder={activeHall?.rows[0].length} value={places}/></label>
                 </div>
                 <p className="conf-step__paragraph">Теперь вы можете указать типы кресел на схеме зала:</p>
                 <div className="conf-step__legend">
@@ -98,7 +133,7 @@ const ConfigHalls = () => {
 
                 <fieldset className="conf-step__buttons text-center">
                     <button className="conf-step__button conf-step__button-regular">Отмена</button>
-                    <input type="submit" value="Сохранить"
+                    <input onClick={onSaveChanges} type="submit" value="Сохранить"
                            className="conf-step__button conf-step__button-accent"/>
                 </fieldset>
             </div>

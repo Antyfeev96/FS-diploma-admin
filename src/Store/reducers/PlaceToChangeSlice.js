@@ -1,5 +1,4 @@
 import {createSlice, current} from "@reduxjs/toolkit";
-import { updateHall } from "./ActionCreators";
 
 const initialState = {
     loading: false,
@@ -7,6 +6,7 @@ const initialState = {
     placeToChange: {
         row: null,
         place: null,
+        status: null,
     }
 }
 
@@ -21,26 +21,10 @@ export const PlaceToChangeSlice = createSlice(({
             state.placeToChange.status = action.payload.status
         },
         resetPlaceToChange(state) {
-            console.log('reset')
-            state.placeToChange.row = null
-            state.placeToChange.place = null
-            state.placeToChange.status = null
+            state = initialState
         }
     },
-    extraReducers: {
-        [updateHall.fulfilled.type]: (state, action) => {
-            state.loading = false;
-            state.error = null
-            state.halls = action.payload;
-        },
-        [updateHall.pending.type]: (state) => {
-            state.loading = true;
-        },
-        [updateHall.rejected.type]: (state, action) => {
-            state.loading = false;
-            state.error = action.payload;
-        },
-    }
+    extraReducers: {}
 }))
 
 export const { setPlaceToChange, resetPlaceToChange } = PlaceToChangeSlice.actions

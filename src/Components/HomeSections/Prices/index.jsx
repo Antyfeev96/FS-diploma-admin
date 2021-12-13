@@ -28,7 +28,7 @@ const Prices = () => {
             <div className="conf-step__wrapper">
                 <p className="conf-step__paragraph">Выберите зал для конфигурации:</p>
                 <ul className="conf-step__selectors-box">
-                    {hallsState.halls.map(hall => <li><input onClick={() => handleHallToConfigure(hall)} type="radio"
+                    {hallsState.halls.map(hall => <li key={hall.name}><input onClick={() => handleHallToConfigure(hall)} type="radio"
                                                              className="conf-step__radio"
                                                              name="prices-hall" value={hall.name}/><span
                         className="conf-step__selector">{hall.name}</span></li>)}
