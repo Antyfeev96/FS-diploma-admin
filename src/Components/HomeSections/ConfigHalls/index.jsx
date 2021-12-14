@@ -41,13 +41,13 @@ const ConfigHalls = () => {
         toggle()
     }
 
-    useEffect(() => {
-        console.log({activeHall})
-    }, [activeHall])
+    // useEffect(() => {
+    //     console.log({activeHall})
+    // }, [activeHall])
 
-    useEffect(() => {
-        console.log({placeToChange})
-    }, [placeToChange])
+    // useEffect(() => {
+    //     console.log({placeToChange})
+    // }, [placeToChange])
 
     useDisableScroll(modalOpen)
     useOnClickOutside(modalOpen, ref, onPopupClose)
@@ -70,13 +70,11 @@ const ConfigHalls = () => {
 
     const handleSetRows = (e) => {
         if (validateChangeInput(e)) return;
-        console.log(+e.target.value.trim())
         setRows(handleInputResult(e))
     }
 
     const handleSetPlaces = (e) => {
         if (validateChangeInput(e)) return;
-        console.log(+e.target.value.trim())
         setPlaces(handleInputResult(e))
     }
 

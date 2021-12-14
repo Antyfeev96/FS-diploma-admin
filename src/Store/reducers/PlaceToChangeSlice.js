@@ -15,7 +15,6 @@ export const PlaceToChangeSlice = createSlice(({
     initialState,
     reducers: {
         setPlaceToChange(state, action) {
-            console.log(action.payload)
             state.placeToChange.row = action.payload.row
             state.placeToChange.place = action.payload.place
             state.placeToChange.status = action.payload.status

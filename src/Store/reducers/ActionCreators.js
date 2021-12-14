@@ -6,7 +6,7 @@ export const fetchHalls = createAsyncThunk(
     async (_, thunkAPI) => {
         try {
             const response = await axios.get('http://localhost:7070/halls')
-            console.log(JSON.parse(response.data.halls))
+            console.log({fetchAll: JSON.parse(response.data.halls)})
             return JSON.parse(response.data.halls)
         } catch (e) {
             return thunkAPI.rejectWithValue(e.message)
@@ -22,7 +22,7 @@ export const createHall = createAsyncThunk(
             const response = await axios.post('http://localhost:7070/halls', {
                 name
             })
-            console.log(response.data)
+            console.log({createHall: response.data})
             return JSON.parse(response.data.halls)
         } catch (e) {
             return thunkAPI.rejectWithValue(e.message)
@@ -54,6 +54,22 @@ export const updateHallRows = createAsyncThunk(
         try {
             const response = await axios.put(`http://localhost:7070/halls/${_id}`, {
                 rows,
+            })
+            console.log(JSON.parse(response.data.halls))
+            return JSON.parse(response.data.halls)
+        } catch (e) {
+            console.log(e.message)
+            return thunkAPI.rejectWithValue(e.message)
+        }
+    }
+)
+
+export const updateHallPrices = createAsyncThunk(
+    'halls/updateHallRows',
+    async ({_id, prices}, thunkAPI) => {
+        try {
+            const response = await axios.put(`http://localhost:7070/halls/${_id}/prices`, {
+                prices,
             })
             console.log(JSON.parse(response.data.halls))
             return JSON.parse(response.data.halls)

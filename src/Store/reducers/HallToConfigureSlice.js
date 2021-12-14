@@ -14,7 +14,7 @@ export const HallToConfigureSlice = createSlice(({
             state.hall = action.payload
         },
         resetHallToConfigure(state) {
-            state.hall = {}
+            state = initialState
         },
         changePrice(state, action) {
             const { key, value } = action.payload
