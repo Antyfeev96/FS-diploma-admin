@@ -3,7 +3,8 @@ import { Switch, Route, Redirect } from 'react-router-dom';
 
 import LoginPage from "./Pages/LoginPage";
 import HomePage from "./Pages/HomePage";
-import AddHallPopup from './Components/Popups/AddHall'
+import AddHall from './Components/Popups/AddHall'
+import AddFilm from './Components/Popups/AddFilm'
 
 export const useRoutes = isAuthenticated => {
     if (isAuthenticated) {
@@ -13,10 +14,10 @@ export const useRoutes = isAuthenticated => {
                     <HomePage/>
                 </Route>
                 <Route path='/home/add_hall' exact>
-                    <AddHallPopup/>
+                    <AddHall/>
                 </Route>
-                <Route path='/hello' exact>
-                    <div>Hello</div>
+                <Route path='/home/add_film' exact>
+                    <AddFilm/>
                 </Route>
                 <Redirect to='/home'/>
             </Switch>

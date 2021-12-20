@@ -2,9 +2,11 @@ import React from 'react';
 import Section from "../Section";
 import poster from "../../../Assets/poster.png";
 import { useOpenHeader } from "../../../Hooks/openHeader.hook";
+import {Link, useRouteMatch} from "react-router-dom";
 
 const Sessions = () => {
     const { isActive, toggleActive } = useOpenHeader()
+    const { path } = useRouteMatch();
 
     return (
         <Section>
@@ -13,7 +15,7 @@ const Sessions = () => {
             </header>
             <div className="conf-step__wrapper">
                 <p className="conf-step__paragraph">
-                    <button className="conf-step__button conf-step__button-accent">Добавить фильм</button>
+                    <Link to={`${path}/add_film`}><button className="conf-step__button conf-step__button-accent">Добавить фильм</button></Link>
                 </p>
                 <div className="conf-step__movies">
                     <div className="conf-step__movie">

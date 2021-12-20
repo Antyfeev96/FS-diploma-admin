@@ -38,6 +38,7 @@ const Prices = () => {
     const onSavePrices = () => {
         dispatch(updateHallPrices({ _id: hall._id, prices: newPrices}))
         dispatch(resetHallToConfigure())
+        setNewPrices({})
     }
 
     return (

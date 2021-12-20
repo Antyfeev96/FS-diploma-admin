@@ -2,7 +2,7 @@ import React, {useEffect, useMemo, useRef, useState} from 'react';
 import {useSelector, useDispatch} from "react-redux";
 
 import Section from "../Section";
-import Popup from "../../Popup/Popup";
+import Index from "../../Popups/ChangePlaceStatus";
 
 import {useOpenHeader} from "../../../Hooks/openHeader.hook";
 import {useModal} from "../../../Hooks/useModal";
@@ -85,7 +85,7 @@ const ConfigHalls = () => {
 
     return (
         <Section>
-            {modalOpen && <Popup placeStatus={placeToChange.status} ref={ref} onClosePopup={onPopupClose}/>}
+            {modalOpen && <Index placeStatus={placeToChange.status} ref={ref} onClosePopup={onPopupClose}/>}
             <header onClick={toggleActive}
                     className={`conf-step__header ${isActive ? 'conf-step__header_opened' : 'conf-step__header_closed'}`}>
                 <h2 className="conf-step__title">Конфигурация залов</h2>

@@ -1,8 +1,8 @@
 import React, {useMemo, useState} from 'react';
 import styled from 'styled-components';
 import {useDispatch, useSelector} from "react-redux";
-import close from '../../Assets/close.png'
-import {updatePlaceStatus} from "../../Store/reducers/ActionCreators";
+import close from '../../../Assets/close.png'
+import {updatePlaceStatus} from "../../../Store/reducers/ActionCreators";
 
 const Wrapper = styled.div`
     position: fixed;
@@ -90,7 +90,7 @@ const placeClasses = [
     }
 ]
 
-const Popup = React.forwardRef(({ placeStatus, modelOpen, onPopupClose }, ref) => {
+const Index = React.forwardRef(({ placeStatus, modelOpen, onPopupClose }, ref) => {
     const { placeToChange } = useSelector(state => state.placeToChangeReducer)
     const hallsState = useSelector(state => state.hallsReducer)
     const { halls } = hallsState
@@ -120,4 +120,4 @@ const Popup = React.forwardRef(({ placeStatus, modelOpen, onPopupClose }, ref) =
     );
 });
 
-export default Popup;
+export default Index;
