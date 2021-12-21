@@ -1,57 +1,77 @@
-import React from 'react';
-import Section from "../Section";
-import poster from "../../../Assets/poster.png";
-import { useOpenHeader } from "../../../Hooks/openHeader.hook";
+import React, {useEffect, useState} from 'react';
 import {Link, useRouteMatch} from "react-router-dom";
+import {useDispatch, useSelector} from "react-redux";
+import Section from "../Section";
+import nevskii from "../../../Assets/nevskii.jpg";
+import {useOpenHeader} from "../../../Hooks/openHeader.hook";
+import {fetchFilms} from "../../../Store/reducers/FilmsSlice";
 
 const Sessions = () => {
-    const { isActive, toggleActive } = useOpenHeader()
-    const { path } = useRouteMatch();
+    const dispatch = useDispatch()
+    const {isActive, toggleActive} = useOpenHeader()
+    const {films} = useSelector(state => state.filmsState)
+    const {path} = useRouteMatch();
+
+    const [currentFilm, setCurrentFilm] = useState(null)
+
+    useEffect(() => {
+        dispatch(fetchFilms())
+    }, [dispatch])
+
+    const dragStartHandler = (e, film) => {
+        // console.log(film)
+    }
+
+    const dragEnterHandler = (e) => {
+        // console.log(e)
+    }
+
+    const dragEndHandler = (e) => {
+        const target = document.elementFromPoint(e.clientX, e.clientY)
+        const hall = target.closest('.conf-step__seances-hall')
+        if (!hall) return;
+        console.log(hall)
+        // hall.style.backgroundColor = 'red'
+    }
+
+    const mouseOverHandler = (e) => {
+        const hall = e.target.closest('.conf-step__seances-timeline')
+        if (!hall) return
+        console.log('drag')
+        // hall.style.backgroundColor = 'grey'
+    }
 
     return (
         <Section>
-            <header onClick={toggleActive} className={`conf-step__header ${isActive ? 'conf-step__header_opened' : 'conf-step__header_closed'}`}>
+            <header onClick={toggleActive}
+                    className={`conf-step__header ${isActive ? 'conf-step__header_opened' : 'conf-step__header_closed'}`}>
                 <h2 className="conf-step__title">Сетка сеансов</h2>
             </header>
             <div className="conf-step__wrapper">
                 <p className="conf-step__paragraph">
-                    <Link to={`${path}/add_film`}><button className="conf-step__button conf-step__button-accent">Добавить фильм</button></Link>
+                    <Link to={`${path}/add_film`}>
+                        <button className="conf-step__button conf-step__button-accent">Добавить фильм</button>
+                    </Link>
                 </p>
                 <div className="conf-step__movies">
-                    <div className="conf-step__movie">
-                        <img className="conf-step__movie-poster" alt="poster" src={poster}/>
-                        <h3 className="conf-step__movie-title">Звёздные войны XXIII: Атака клонированных
-                            клонов</h3>
-                        <p className="conf-step__movie-duration">130 минут</p>
-                    </div>
-
-                    <div className="conf-step__movie">
-                        <img className="conf-step__movie-poster" alt="poster" src={poster}/>
-                        <h3 className="conf-step__movie-title">Миссия выполнима</h3>
-                        <p className="conf-step__movie-duration">120 минут</p>
-                    </div>
-
-                    <div className="conf-step__movie">
-                        <img className="conf-step__movie-poster" alt="poster" src={poster}/>
-                        <h3 className="conf-step__movie-title">Серая пантера</h3>
-                        <p className="conf-step__movie-duration">90 минут</p>
-                    </div>
-
-                    <div className="conf-step__movie">
-                        <img className="conf-step__movie-poster" alt="poster" src={poster}/>
-                        <h3 className="conf-step__movie-title">Движение вбок</h3>
-                        <p className="conf-step__movie-duration">95 минут</p>
-                    </div>
-
-                    <div className="conf-step__movie">
-                        <img className="conf-step__movie-poster" alt="poster" src={poster}/>
-                        <h3 className="conf-step__movie-title">Кот Да Винчи</h3>
-                        <p className="conf-step__movie-duration">100 минут</p>
-                    </div>
+                    {films.map((film) =>
+                        <div
+                            draggable={true}
+                            onDragStart={(e) => dragStartHandler(e, film)}
+                            onDragEnter={(e) => dragEnterHandler(e)}
+                            onDragEnd={(e) => dragEndHandler(e)}
+                            onDrop={(e) => dragEndHandler(e)}
+                            onDragOver={(e) => mouseOverHandler(e)}
+                            className="conf-step__movie"
+                        >
+                            <img className="conf-step__movie-poster" alt="poster" src={nevskii}/>
+                            <h3 className="conf-step__movie-title">{film.name}</h3>
+                            <p className="conf-step__movie-duration">{film.duration} минут</p>
+                        </div>)}
                 </div>
 
                 <div className="conf-step__seances">
-                    <div className="conf-step__seances-hall">
+                    <div className="conf-step__seances-hall" onDragOver={(e) => mouseOverHandler(e)}>
                         <h3 className="conf-step__seances-title">Зал 1</h3>
                         <div className="conf-step__seances-timeline">
                             <div className="conf-step__seances-movie"
@@ -112,8 +132,10 @@ const Sessions = () => {
 
                 <fieldset className="conf-step__buttons text-center">
                     <button className="conf-step__button conf-step__button-regular">Отмена</button>
-                    <input type="submit" value="Сохранить"
+                    <Link to={`${path}/add_session`}>
+                        <input type="submit" value="Сохранить"
                            className="conf-step__button conf-step__button-accent"/>
+                    </Link>
                 </fieldset>
             </div>
         </Section>

@@ -1,7 +1,8 @@
 import React, {useState} from 'react';
-import { useHistory } from 'react-router-dom';
-import { useDispatch } from "react-redux";
+import {useHistory} from 'react-router-dom';
+import {useDispatch} from "react-redux";
 import {createHall} from "../../../Store/reducers/ActionCreators";
+import PopupWrapper from "../../../Components/Popups/PopupWrapper";
 import Header from "../../../Components/Popups/Header";
 import FormWrapper from "../../../Components/Popups/FormWrapper";
 
@@ -21,14 +22,15 @@ const MyComponent = () => {
     }
 
     return (
-        <div className="popup active">
-            <div className="popup__container">
-                <div className="popup__content">
-                    <Header type="hall"/>
-                    <FormWrapper type="hall" inputValue={hallName} handleChange={handleChange} onSubmit={onSubmit}/>
-                </div>
-            </div>
-        </div>
+        <PopupWrapper>
+            <Header type="hall"/>
+            <FormWrapper
+                type="hall"
+                inputValue={hallName}
+                handleChange={handleChange}
+                onSubmit={onSubmit}
+            />
+        </PopupWrapper>
     );
 };
 

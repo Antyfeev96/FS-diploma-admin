@@ -5,6 +5,7 @@ import LoginPage from "./Pages/LoginPage";
 import HomePage from "./Pages/HomePage";
 import AddHall from './Components/Popups/AddHall'
 import AddFilm from './Components/Popups/AddFilm'
+import AddSession from './Components/Popups/AddSession'
 
 export const useRoutes = isAuthenticated => {
     if (isAuthenticated) {
@@ -18,6 +19,9 @@ export const useRoutes = isAuthenticated => {
                 </Route>
                 <Route path='/home/add_film' exact>
                     <AddFilm/>
+                </Route>
+                <Route path='/home/add_session' exact>
+                    <AddSession/>
                 </Route>
                 <Redirect to='/home'/>
             </Switch>
