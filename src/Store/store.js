@@ -3,7 +3,7 @@ import hallsReducer from './reducers/HallsSlice'
 import placeToChangeReducer from './reducers/PlaceToChangeSlice'
 import hallToConfigureReducer from './reducers/HallToConfigureSlice'
 import filmsReducer from './reducers/FilmsSlice'
-import newSessionState from './reducers/FilmsSlice'
+import newSessionState from './reducers/NewSessionSlice'
 
 const rootReducer = combineReducers({
     hallsReducer,

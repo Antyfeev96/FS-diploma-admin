@@ -1,18 +1,18 @@
 import React, {useEffect, useState} from 'react';
-import { Link, useRouteMatch, useHistory } from "react-router-dom";
+import {Link, useRouteMatch, useHistory} from "react-router-dom";
 import {useDispatch, useSelector} from "react-redux";
 import Section from "../Section";
 import nevskii from "../../../Assets/nevskii.jpg";
 import {useOpenHeader} from "../../../Hooks/openHeader.hook";
 import {fetchFilms} from "../../../Store/reducers/FilmsSlice";
-import { setSessionHall, setSessionFilm, setSessionTime } from "../../../Store/reducers/NewSessionSlice";
+import {setSessionHall, setSessionFilm, setSessionTime, resetState} from "../../../Store/reducers/NewSessionSlice";
 
 const Sessions = () => {
     const dispatch = useDispatch()
     const {isActive, toggleActive} = useOpenHeader()
     const {films} = useSelector(state => state.filmsState)
     const {halls} = useSelector(state => state.hallsReducer)
-    const { session } = useSelector(state => state.newSessionState)
+    const {session} = useSelector(state => state.newSessionState)
     const {path} = useRouteMatch();
     const history = useHistory()
 
@@ -23,23 +23,40 @@ const Sessions = () => {
     }, [dispatch])
 
     const dragStartHandler = (e, film) => {
-        console.log({film})
-        dispatch(setSessionFilm(film.name))
+        const {_id, name} = film
+        console.log({
+            _id,
+            name
+        })
+        dispatch(setSessionFilm({
+            _id,
+            name
+        }))
     }
 
-    // const dragEndHandler = (e, film) => {
-    //     const target = document.elementFromPoint(e.clientX, e.clientY)
-    //     const hall = target.closest('.conf-step__seances-hall')
-    //     if (!hall) return console.log('out of element');
-    //     hall.style.backgroundColor = 'transparent'
-    //     // history.push(`${path}/add_session`)
-    // }
+    const dragEndHandler = (e, film) => {
+        const target = document.elementFromPoint(e.clientX, e.clientY)
+        const hall = target.closest('.conf-step__seances-hall')
+        if (!hall) {
+            console.log('out of element');
+            return dispatch(resetState())
+        }
+        hall.style.backgroundColor = 'transparent'
+        history.push(`${path}/add_session`)
+    }
 
     const dropHandler = (e, hall) => {
         const hallNode = e.target.closest('.conf-step__seances-timeline')
         if (!hallNode) return console.log('Сюда нельзя сделать drop')
-        console.log({hall})
-        dispatch(setSessionHall(hall.name))
+        const { _id, name } = hall
+        console.log({
+            _id,
+            name
+        })
+        dispatch(setSessionHall({
+            _id,
+            name
+        }))
         hallNode.style.backgroundColor = 'transparent'
     }
 
@@ -99,7 +116,7 @@ const Sessions = () => {
                         <div
                             draggable={true}
                             onDragStart={(e) => dragStartHandler(e, film)}
-                            // onDragEnd={(e) => dragEndHandler(e, film)}
+                            onDragEnd={(e) => dragEndHandler(e, film)}
                             className="conf-step__movie"
                         >
                             <img className="conf-step__movie-poster" alt="poster" src={nevskii}/>
@@ -135,8 +152,8 @@ const Sessions = () => {
                 </div>
                 <fieldset className="conf-step__buttons text-center">
                     <button className="conf-step__button conf-step__button-regular">Отмена</button>
-                        <input type="submit" value="Сохранить"
-                               className="conf-step__button conf-step__button-accent"/>
+                    <input type="submit" value="Сохранить"
+                           className="conf-step__button conf-step__button-accent"/>
                 </fieldset>
             </div>
         </Section>

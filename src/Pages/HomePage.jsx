@@ -7,7 +7,7 @@ import ConfigHalls from '../Components/HomeSections/ConfigHalls'
 import Prices from "../Components/HomeSections/Prices";
 import Sessions from "../Components/HomeSections/Sessions";
 import Sales from "../Components/HomeSections/Sales";
-import { fetchHalls } from "../Store/reducers/ActionCreators";
+import { fetchHalls } from "../Store/reducers/HallsSlice";
 
 const HomePage = () => {
     const hallsState = useSelector(state => state.hallsReducer)

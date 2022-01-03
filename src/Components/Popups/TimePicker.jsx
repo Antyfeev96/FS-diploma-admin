@@ -1,5 +1,7 @@
 import React, {useEffect, useState} from 'react';
+import {useDispatch, useSelector} from "react-redux";
 import styled from 'styled-components'
+import { getHallSlots, setSessionTime } from "../../Store/reducers/NewSessionSlice";
 
 const Select = styled.select`
   display: flex;
@@ -12,32 +14,33 @@ const Select = styled.select`
   }
 `
 
-const times = {
-    '10:00': '',
-    '12:00': 'dfghjkl132fgd34234',
-    '14:00': '',
-    '16:00': '',
-    '18:00': '',
-    '20:00': 'dfghjkl11кыпвапвап4534',
-    '22:00': '',
-}
-
 function TimePicker() {
-    const [option, setOption] = useState('10:00')
+    const dispatch = useDispatch()
+    const { slots, loading, session } = useSelector(state => state.newSessionState)
+
+    useEffect(() => {
+        dispatch(getHallSlots())
+    }, [dispatch, session.hall])
+
+    const handleSetTime = (e) => {
+        dispatch(setSessionTime(e.target.value))
+    }
 
     return (
         <>
             <label className="conf-step__label conf-step__label-fullsize">
                 Время начала
-                <Select onChange={(e) => setOption(e.target.value)}>
-                    {Object.entries(times)
+                {loading && <h2>Loading...</h2>}
+                {slots && !loading &&
+                <Select defaultValue={session.start_time} onChange={handleSetTime}>
+                    {Object.entries(slots)
                         .filter(([key, value]) => value === '')
                         .map(([key, value]) =>
-                            <option key={key} selected={value === option}>{key}</option>
+                            <option key={key}>{key}</option>
                         )}
-                </Select>
+                </Select>}
             </label>
-            <h2>Вы добавляете фильм "Московская жара"</h2>
+            <h2>Вы добавляете фильм {session.film.name}</h2>
         </>
     );
 }

@@ -2,7 +2,7 @@ import React, {useMemo, useState} from 'react';
 import styled from 'styled-components';
 import {useDispatch, useSelector} from "react-redux";
 import close from '../../../Assets/close.png'
-import {updatePlaceStatus} from "../../../Store/reducers/ActionCreators";
+import {updatePlaceStatus} from "../../../Store/reducers/HallsSlice";
 
 const Wrapper = styled.div`
     position: fixed;

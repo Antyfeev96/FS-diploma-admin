@@ -9,9 +9,8 @@ import {useModal} from "../../../Hooks/useModal";
 import {useDisableScroll} from "../../../Hooks/useDisableScroll";
 import {useOnClickOutside} from "../../../Hooks/useOnClickOutside";
 
-import {setActiveHall, resetActiveHall} from "../../../Store/reducers/HallsSlice";
+import { setActiveHall, resetActiveHall, updateHallRows } from "../../../Store/reducers/HallsSlice";
 import {setPlaceToChange, resetPlaceToChange} from "../../../Store/reducers/PlaceToChangeSlice";
-import { updateHallRows } from "../../../Store/reducers/ActionCreators";
 
 const ConfigHalls = () => {
     const [rows, setRows] = useState(0)

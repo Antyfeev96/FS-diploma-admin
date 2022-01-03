@@ -12,8 +12,8 @@ export const fetchFilms = createAsyncThunk(
     async (_, thunkAPI) => {
         try {
             const response = await axios.get('http://localhost:7070/films')
-            console.log({films: JSON.parse(response.data.films)})
-            return JSON.parse(response.data.films)
+            console.log({films: response.data.films})
+            return response.data.films
         } catch (e) {
             return thunkAPI.rejectWithValue(e.message)
         }
@@ -28,7 +28,7 @@ export const createFilm = createAsyncThunk(
                 name
             })
             console.log({createFilm: response.data})
-            return JSON.parse(response.data.films)
+            return response.data.films
         } catch (e) {
             return thunkAPI.rejectWithValue(e.message)
         }

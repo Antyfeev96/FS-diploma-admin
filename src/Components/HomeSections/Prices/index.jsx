@@ -3,7 +3,7 @@ import {useSelector, useDispatch} from "react-redux";
 import Section from '../Section'
 import {useOpenHeader} from "../../../Hooks/openHeader.hook";
 import {setHallToConfigure, resetHallToConfigure, changePrice} from "../../../Store/reducers/HallToConfigureSlice";
-import { updateHallPrices } from "../../../Store/reducers/ActionCreators";
+import { updateHallPrices } from "../../../Store/reducers/HallsSlice";
 
 const Prices = () => {
     const dispatch = useDispatch()

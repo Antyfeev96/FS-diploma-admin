@@ -1,7 +1,7 @@
 import React, {useState} from 'react';
 import {useHistory} from 'react-router-dom';
 import {useDispatch} from "react-redux";
-import {createHall} from "../../../Store/reducers/ActionCreators";
+import {createHall} from "../../../Store/reducers/HallsSlice";
 import PopupWrapper from "../../../Components/Popups/PopupWrapper";
 import Header from "../../../Components/Popups/Header";
 import FormWrapper from "../../../Components/Popups/FormWrapper";

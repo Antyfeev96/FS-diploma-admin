@@ -3,7 +3,7 @@ import Section from "../Section";
 import {useDispatch, useSelector} from "react-redux";
 import { Link, useRouteMatch } from "react-router-dom";
 import { useOpenHeader } from "../../../Hooks/openHeader.hook";
-import { deleteHall } from "../../../Store/reducers/ActionCreators";
+import { deleteHall } from "../../../Store/reducers/HallsSlice";
 
 const ManageHalls = () => {
     const { isActive, toggleActive } = useOpenHeader()
@@ -25,6 +25,7 @@ const ManageHalls = () => {
             <div className="conf-step__wrapper">
                 <p className="conf-step__paragraph">Доступные залы:</p>
                 <ul className="conf-step__list">
+                    {halls.length === 0 && <h1>Список залов пуст</h1>}
                     {loading && <h1>Идет загрузка...</h1>}
                     {error && <h1>{error}</h1>}
                     {halls
