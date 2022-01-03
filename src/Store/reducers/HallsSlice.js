@@ -6,7 +6,6 @@ export const fetchHalls = createAsyncThunk(
     async (_, thunkAPI) => {
         try {
             const response = await axios.get('http://localhost:7070/halls')
-            console.log({allHalls: response.data.halls})
             return response.data.halls
         } catch (e) {
             return thunkAPI.rejectWithValue(e.message)
@@ -17,12 +16,10 @@ export const fetchHalls = createAsyncThunk(
 export const createHall = createAsyncThunk(
     'halls/createHall',
     async (name, thunkAPI) => {
-        console.log(name)
         try {
             const response = await axios.post('http://localhost:7070/halls', {
                 name
             })
-            console.log({createHall: response.data})
             return response.data.halls
         } catch (e) {
             return thunkAPI.rejectWithValue(e.message)
@@ -33,10 +30,8 @@ export const createHall = createAsyncThunk(
 export const deleteHall = createAsyncThunk(
     'halls/deleteHall',
     async (_id, thunkAPI) => {
-        console.log(_id)
         try {
             const response = await axios.delete(`http://localhost:7070/halls/${_id}`)
-            console.log(response.data)
             return response.data.halls
         } catch (e) {
             return thunkAPI.rejectWithValue(e.message)
@@ -51,10 +46,8 @@ export const updateHallRows = createAsyncThunk(
             const response = await axios.put(`http://localhost:7070/halls/${_id}`, {
                 rows,
             })
-            console.log(response.data.halls)
             return response.data.halls
         } catch (e) {
-            console.log(e.message)
             return thunkAPI.rejectWithValue(e.message)
         }
     }
@@ -67,10 +60,8 @@ export const updateHallPrices = createAsyncThunk(
             const response = await axios.put(`http://localhost:7070/halls/${_id}/prices`, {
                 prices,
             })
-            console.log(response.data.halls)
             return response.data.halls
         } catch (e) {
-            console.log(e.message)
             return thunkAPI.rejectWithValue(e.message)
         }
     }
@@ -85,10 +76,8 @@ export const updatePlaceStatus = createAsyncThunk(
                 place,
                 status
             })
-            console.log(response.data.halls)
             return response.data.halls
         } catch (e) {
-            console.log(e.message)
             return thunkAPI.rejectWithValue(e.message)
         }
     }

@@ -1,4 +1,4 @@
-import React, {useEffect, useMemo, useRef, useState} from 'react';
+import React, { useMemo, useRef, useState } from 'react';
 import {useSelector, useDispatch} from "react-redux";
 
 import Section from "../Section";
@@ -16,7 +16,7 @@ const ConfigHalls = () => {
     const [rows, setRows] = useState(0)
     const [places, setPlaces] = useState(0)
     const ref = useRef()
-    const [modalOpen, setModalOpen, toggle] = useModal(false)
+    const [modalOpen, toggle] = useModal(false)
     const hallsState = useSelector(state => state.hallsReducer)
     const { placeToChange } = useSelector(state => state.placeToChangeReducer)
     const dispatch = useDispatch()
@@ -40,23 +40,10 @@ const ConfigHalls = () => {
         toggle()
     }
 
-    // useEffect(() => {
-    //     console.log({activeHall})
-    // }, [activeHall])
-
-    // useEffect(() => {
-    //     console.log({placeToChange})
-    // }, [placeToChange])
-
     useDisableScroll(modalOpen)
     useOnClickOutside(modalOpen, ref, onPopupClose)
 
     const validateChangeInput = (e) => {
-        console.log({
-            isNan: isNaN(+e.target.value),
-            und: !e.target.value,
-            empty: e.target.value === ''
-        })
         return isNaN(+e.target.value) && e.target.value !== ''
     }
 

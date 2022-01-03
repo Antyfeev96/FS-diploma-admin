@@ -1,7 +1,7 @@
 import React from 'react';
 import {Link} from "react-router-dom";
-import { useDispatch, useSelector } from "react-redux";
-import { handleHeaderText, handleInputPlaceholder, handleSubmitText } from '../../functions'
+import { useSelector } from "react-redux";
+import { handleSubmitText } from '../../functions'
 import Input from "../../Components/Popups/Input";
 
 const MyComponent = ({ onSubmit, onCancel, type, select, timePicker, ...props }) => {

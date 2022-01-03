@@ -8,7 +8,6 @@ function Select() {
     const { halls } = useSelector(state => state.hallsReducer)
 
     const handleChange = (e) => {
-        console.log(e.target.value)
         const { _id, name } = halls.find(hall => hall.name === e.target.value)
         dispatch(setSessionHall({ _id, name }))
     }

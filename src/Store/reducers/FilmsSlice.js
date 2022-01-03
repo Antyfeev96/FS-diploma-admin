@@ -1,4 +1,4 @@
-import {createAsyncThunk, createSlice, current} from "@reduxjs/toolkit";
+import { createAsyncThunk, createSlice } from "@reduxjs/toolkit";
 import axios from "axios";
 
 const initialState = {
@@ -12,7 +12,6 @@ export const fetchFilms = createAsyncThunk(
     async (_, thunkAPI) => {
         try {
             const response = await axios.get('http://localhost:7070/films')
-            console.log({films: response.data.films})
             return response.data.films
         } catch (e) {
             return thunkAPI.rejectWithValue(e.message)
@@ -27,7 +26,6 @@ export const createFilm = createAsyncThunk(
             const response = await axios.post('http://localhost:7070/films', {
                 name
             })
-            console.log({createFilm: response.data})
             return response.data.films
         } catch (e) {
             return thunkAPI.rejectWithValue(e.message)
@@ -48,6 +46,18 @@ export const filmsSlice = createSlice(({
             state.error = action.payload
         },
         [fetchFilms.fulfilled.type]: (state, action) => {
+            state.loading = false
+            state.error = null
+            state.films = action.payload
+        },
+        [createFilm.pending.type]: (state) => {
+            state.loading = true
+        },
+        [createFilm.rejected.type]: (state, action) => {
+            state.loading = true
+            state.error = action.payload
+        },
+        [createFilm.fulfilled.type]: (state, action) => {
             state.loading = false
             state.error = null
             state.films = action.payload

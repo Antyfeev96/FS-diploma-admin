@@ -5,5 +5,5 @@ export const useModal = (initialMode = false) => {
     const toggle = () => {
         setModalOpen(!modalOpen)
     }
-    return [modalOpen, setModalOpen, toggle]
+    return [modalOpen, toggle]
 }

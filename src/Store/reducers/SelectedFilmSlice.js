@@ -11,9 +11,7 @@ export const createSession = createAsyncThunk(
     'session/createSession',
     async (_, thunkAPI) => {
         try {
-            const response = await axios.get('http://localhost:7070/sessions')
-            // console.log({allSessions: response.data.sessions})
-            // return response.data.sessions
+            await axios.get('http://localhost:7070/sessions')
         } catch (e) {
             return thunkAPI.rejectWithValue(e.message)
         }
@@ -25,7 +23,6 @@ export const SelectedFilmSlice = createSlice(({
     initialState,
     reducers: {
         setSelectedFilm(state, action) {
-            console.log(action.payload)
             state.film = action.payload
         },
         resetState: () => initialState

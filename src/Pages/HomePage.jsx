@@ -12,7 +12,7 @@ import { fetchHalls } from "../Store/reducers/HallsSlice";
 const HomePage = () => {
     const hallsState = useSelector(state => state.hallsReducer)
     const dispatch = useDispatch()
-    const {loading, halls, error} = hallsState
+    const { loading, error } = hallsState
 
     useEffect(() => {
         dispatch(fetchHalls())

@@ -18,6 +18,6 @@ export function useOnClickOutside(modalOpen, ref, handler) {
                 document.removeEventListener("touchstart", listener);
             };
         },
-        [ref, handler]
+        [ref, handler, modalOpen]
     );
 }

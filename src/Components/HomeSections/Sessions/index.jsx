@@ -1,22 +1,19 @@
-import React, {useEffect, useState} from 'react';
+import React, {useEffect} from 'react';
 import {Link, useRouteMatch, useHistory} from "react-router-dom";
 import {useDispatch, useSelector} from "react-redux";
 import Section from "../Section";
 import nevskii from "../../../Assets/nevskii.jpg";
 import {useOpenHeader} from "../../../Hooks/openHeader.hook";
 import {fetchFilms} from "../../../Store/reducers/FilmsSlice";
-import {setSessionHall, setSessionFilm, setSessionTime, resetState} from "../../../Store/reducers/NewSessionSlice";
+import {setSessionHall, setSessionFilm, resetState} from "../../../Store/reducers/NewSessionSlice";
 
 const Sessions = () => {
     const dispatch = useDispatch()
     const {isActive, toggleActive} = useOpenHeader()
     const {films} = useSelector(state => state.filmsState)
     const {halls} = useSelector(state => state.hallsReducer)
-    const {session} = useSelector(state => state.newSessionState)
     const {path} = useRouteMatch();
     const history = useHistory()
-
-    const [currentFilm, setCurrentFilm] = useState(null)
 
     useEffect(() => {
         dispatch(fetchFilms())
@@ -24,10 +21,6 @@ const Sessions = () => {
 
     const dragStartHandler = (e, film) => {
         const {_id, name} = film
-        console.log({
-            _id,
-            name
-        })
         dispatch(setSessionFilm({
             _id,
             name
@@ -49,10 +42,6 @@ const Sessions = () => {
         const hallNode = e.target.closest('.conf-step__seances-timeline')
         if (!hallNode) return console.log('Сюда нельзя сделать drop')
         const { _id, name } = hall
-        console.log({
-            _id,
-            name
-        })
         dispatch(setSessionHall({
             _id,
             name
@@ -71,7 +60,6 @@ const Sessions = () => {
     const dragLeaveHandler = (e) => {
         const hall = e.target.closest('.conf-step__seances-timeline')
         if (!hall) return
-        console.log('dragLeave')
         hall.style.backgroundColor = 'transparent'
     }
 

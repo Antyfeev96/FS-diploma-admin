@@ -13,7 +13,6 @@ const ManageHalls = () => {
     const { loading, halls, error } = hallsState
 
     const onDelete = (_id) => {
-        console.log({_id})
         dispatch(deleteHall(_id))
     }
 
