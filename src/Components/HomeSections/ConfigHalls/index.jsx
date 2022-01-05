@@ -13,8 +13,8 @@ import { setActiveHall, resetActiveHall, updateHallRows } from "../../../Store/r
 import {setPlaceToChange, resetPlaceToChange} from "../../../Store/reducers/PlaceToChangeSlice";
 
 const ConfigHalls = () => {
-    const [rows, setRows] = useState(0)
-    const [places, setPlaces] = useState(0)
+    const [rows, setRows] = useState(5)
+    const [places, setPlaces] = useState(5)
     const ref = useRef()
     const [modalOpen, toggle] = useModal(false)
     const hallsState = useSelector(state => state.hallsReducer)
