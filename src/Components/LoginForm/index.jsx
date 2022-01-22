@@ -2,6 +2,8 @@ import React, {useContext, useEffect, useState} from 'react';
 import {useHttp} from "../../Hooks/http.hook";
 import {AuthContext} from "../../Context/AuthContext";
 
+const { REACT_APP_URL } = process.env
+
 const MyComponent = () => {
     const auth = useContext(AuthContext)
     const { loading, request, error } = useHttp()
@@ -19,7 +21,7 @@ const MyComponent = () => {
 
     const registerHandler = async () => {
         try {
-            await request('/api/auth/register', 'POST', { ...form })
+            await request(`${REACT_APP_URL}/api/auth/register`, 'POST', { ...form })
         } catch (e) {
             console.log(e)
         }
@@ -27,7 +29,7 @@ const MyComponent = () => {
 
     const loginHandler = async () => {
         try {
-            const data = await request('/api/auth/login', 'POST', { ...form })
+            const data = await request(`${REACT_APP_URL}/api/auth/login`, 'POST', { ...form })
             auth.login(data.token, data.userId)
         } catch (e) {
             console.log(e)
