@@ -1,22 +1,10 @@
-import {createAsyncThunk, createSlice} from "@reduxjs/toolkit";
-import axios from "axios";
+import {createSlice} from "@reduxjs/toolkit";
 
 const initialState = {
     loading: false,
     error: null,
     film: {}
 }
-
-export const createSession = createAsyncThunk(
-    'session/createSession',
-    async (_, thunkAPI) => {
-        try {
-            await axios.get('http://localhost:7070/sessions')
-        } catch (e) {
-            return thunkAPI.rejectWithValue(e.message)
-        }
-    }
-)
 
 export const SelectedFilmSlice = createSlice(({
     name: 'selectedFilm',

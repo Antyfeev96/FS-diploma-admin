@@ -7,11 +7,13 @@ const initialState = {
     films: [],
 }
 
+const { URL } = process.env
+
 export const fetchFilms = createAsyncThunk(
     'films/fetchAll',
     async (_, thunkAPI) => {
         try {
-            const response = await axios.get('http://localhost:7070/films')
+            const response = await axios.get(`${URL}/films`)
             return response.data.films
         } catch (e) {
             return thunkAPI.rejectWithValue(e.message)
@@ -23,7 +25,7 @@ export const createFilm = createAsyncThunk(
     'films/createFilm',
     async (name, thunkAPI) => {
         try {
-            const response = await axios.post('http://localhost:7070/films', {
+            const response = await axios.post(`${URL}/films`, {
                 name
             })
             return response.data.films
