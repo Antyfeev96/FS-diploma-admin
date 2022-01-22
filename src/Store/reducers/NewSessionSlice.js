@@ -1,14 +1,14 @@
 import { createAsyncThunk, createSlice } from "@reduxjs/toolkit";
 import axios from "axios";
 
-const { URL } = process.env
+const { REACT_APP_URL } = process.env
 
 export const getHallSlots = createAsyncThunk(
     'newSession/getSlots',
     async (_, thunkAPI) => {
         try {
             const { _id } = thunkAPI.getState().newSessionState.session.hall
-            const response = await axios.get(`${URL}/halls/slots/${_id}`)
+            const response = await axios.get(`${REACT_APP_URL}/halls/slots/${_id}`)
             return response.data.sessions
         } catch (e) {
             return thunkAPI.rejectWithValue(e.message)
@@ -21,7 +21,7 @@ export const createNewSession = createAsyncThunk(
     async (_, thunkAPI) => {
         try {
             const { hall, film, start_time } = thunkAPI.getState().newSessionState.session
-            const response = await axios.post(`${URL}/sessions`, {
+            const response = await axios.post(`${REACT_APP_URL}/sessions`, {
                 hall, film, start_time
             })
             return response.data

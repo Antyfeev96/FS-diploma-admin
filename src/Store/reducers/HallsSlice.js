@@ -1,13 +1,13 @@
 import {createAsyncThunk, createSlice} from "@reduxjs/toolkit";
 import axios from "axios";
 
-const { URL } = process.env
+const { REACT_APP_URL } = process.env
 
 export const fetchHalls = createAsyncThunk(
     'halls/fetchAll',
     async (_, thunkAPI) => {
         try {
-            const response = await axios.get(`${URL}/halls`)
+            const response = await axios.get(`${REACT_APP_URL}/halls`)
             return response.data.halls
         } catch (e) {
             return thunkAPI.rejectWithValue(e.message)
@@ -19,7 +19,7 @@ export const createHall = createAsyncThunk(
     'halls/createHall',
     async (name, thunkAPI) => {
         try {
-            const response = await axios.post(`${URL}/halls`, {
+            const response = await axios.post(`${REACT_APP_URL}/halls`, {
                 name
             })
             return response.data.halls
@@ -33,7 +33,7 @@ export const deleteHall = createAsyncThunk(
     'halls/deleteHall',
     async (_id, thunkAPI) => {
         try {
-            const response = await axios.delete(`${URL}/halls/${_id}`)
+            const response = await axios.delete(`${REACT_APP_URL}/halls/${_id}`)
             return response.data.halls
         } catch (e) {
             return thunkAPI.rejectWithValue(e.message)
@@ -45,7 +45,7 @@ export const updateHallRows = createAsyncThunk(
     'halls/updateHallRows',
     async ({_id, rows}, thunkAPI) => {
         try {
-            const response = await axios.put(`${URL}/halls/${_id}`, {
+            const response = await axios.put(`${REACT_APP_URL}/halls/${_id}`, {
                 rows,
             })
             return response.data.halls
@@ -59,7 +59,7 @@ export const updateHallPrices = createAsyncThunk(
     'halls/updateHallRows',
     async ({_id, prices}, thunkAPI) => {
         try {
-            const response = await axios.put(`${URL}/halls/${_id}/prices`, {
+            const response = await axios.put(`${REACT_APP_URL}/halls/${_id}/prices`, {
                 prices,
             })
             return response.data.halls
@@ -73,7 +73,7 @@ export const updatePlaceStatus = createAsyncThunk(
     'halls/updatePlaceStatus',
     async ({_id, row, place, status}, thunkAPI) => {
         try {
-            const response = await axios.patch(`${URL}/halls/${_id}`, {
+            const response = await axios.patch(`${REACT_APP_URL}/halls/${_id}`, {
                 row,
                 place,
                 status
